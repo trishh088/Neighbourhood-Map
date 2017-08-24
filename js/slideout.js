@@ -37,12 +37,12 @@ var ViewModel = function() {
   this.area = ko.observable("");
   this.cuisine = ko.observable("");
 
-  var NameLatLong = ko.observableArray([
-    {
-      name: ,
-      latitude:,
-      longitude:
-    }
-  ]);
+  // var NameLatLong = ko.observableArray([
+  //   {
+  //     name: ,
+  //     latitude:,
+  //     longitude:
+  //   }
+  // ]);
 }
 ko.applyBindings(new ViewModel());
