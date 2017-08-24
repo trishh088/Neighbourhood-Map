@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Neighbourhood Map</title>
+    <meta http-equiv="cleartype" content="on">
+    <meta name="MobileOptimized" content="320">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <!-- <nav id="menu">
+        <div>
+            <h3><font color="#FFB6C1">Refine your cravings</h3>
+              <br><br>
+
+            <span> City</span>
+            <br>
+            <font color="black">  <input id="show-listings" type="text" value="Show Listings">
+            <br><br>
+          <span> <font color="#FFB6C1"> Area </span>
+            <br>
+        <font color="black">  <input id="show-listings" type="text" value="Show Listings">
+          <br><br>
+          <span> <font color="#FFB6C1"> Type of Cuisine </span>
+          <br>
+          <font color="black"><input id="hide-listings" type="text" value="Hide Listings">
+            <br> <br>
+            <button>GO!</button>
+        </div>
+      </nav>
+
+      <main id="panel">
+        <header>
+        <h3 id="titletext">  <button class="toggle-button">☰BURRITO🌯</button> 🧀🍔PLACES TO GRAB AND GRUB🍱🍜</h3>
+
+
+        </header>
+      </main> -->
+      <div id="mySidenav" class="sidenav">
+  <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+  <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
+
+  <div>
+            <h3><font color="#FFB6C1">Refine your cravings</h3>
+              <br><br>
+
+            <span> City</span>
+            <br>
+            <font color="black">  <input type="text" data-bind="textInput:city">
+            <br><br>
+          <span> <font color="#FFB6C1"> Area </span>
+            <br>
+        <font color="black">  <input type="text" data-bind="textInput:area">
+          <br><br>
+          <span> <font color="#FFB6C1"> Type of Cuisine </span>
+          <br>
+          <font color="black"><input type="text" data-bind="textInput:cuisine">
+            <br> <br>
+            <button>GO!</button>
+        </div>
+</div>
+
+<div id="main">
+
+<!-- <h2 id="titletext"><button class="toggle-button" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;BURRITO🌯</button>🧀🍔PLACES TO GRAB AND GRUB🍱🍜</h2> -->
+<h2 id="titletext"><button class="toggle-button" style="font-size:30px;cursor:pointer" data-bind="click:openNav">&#9776;BURRITO🌯</button>🧀🍔PLACES TO GRAB AND GRUB🍱🍜</h2>
+
+</div>
+ <div id="map"></div>
+
+
+
+      <script src="js/lib/knockout-3.2.0.js"></script>
+      <script src="js/slideout.js"></script>
+      <script src="js/app.js"></script>
+      <script async defer
+          src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap">
+      </script>
+
+
+    </body>
+  </html>
