@@ -148,4 +148,5 @@ body {
 @media only screen and (max-width: 480px) {
   #map { font-size: 2px;}
   #mySidenav { font-size: 20px;padding-left: 0.5em; width:100%;margin:0;position:absolute; display: flex;}
+  .sidenav {width:100%;}
 }
