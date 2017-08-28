@@ -114,7 +114,6 @@ body {
   position:absolute;
   top:0.3cm;
   left:0.05cm;
-
 }
 /*For Map*/
 html,
@@ -131,5 +130,22 @@ body {
   left: 2px;
   position: absolute;
   right: 0px;
-  overflow: scroll;
+  overflow:hidden;
+}
+
+/* Tablet Landscape */
+/*@media screen and (max-width: 1060px) {
+    #map { width:67%; }
+    #mySidenav { width:30%; margin-left:3%;}
+}*/
+/* Tabled Portrait */
+/*@media screen and (max-width: 768px) {
+    #map { width:100%; }
+    #mySidenav { width:100%; margin:0; border:none; }
+}*/
+
+/* Smartphones (portrait) */
+@media only screen and (max-width: 480px) {
+  #map { font-size: 2px;}
+  #mySidenav { font-size: 20px;padding-left: 0.5em; width:100%;margin:0;position:absolute; display: flex;}
 }
