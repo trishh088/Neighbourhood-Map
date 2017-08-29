@@ -53,6 +53,7 @@ body {
     font-family: "Lato", sans-serif;
     transition: background-color .5s;
     background-color: #1F2C40;
+    color: #444;
 }
 
 .sidenav {
@@ -94,10 +95,10 @@ body {
     padding: 16px;
 }
 
-@media screen and (max-height: 450px) {
+/*@media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
-}
+}*/
 
 
 /*for header*/
@@ -106,7 +107,7 @@ body {
   color: #FFB6C1;
   margin-top: 0px;
   /*to keep the text aligned*/
-  padding-left: 250px
+  padding-left: 135px;
 }
 .toggle-button {
   color: black;
@@ -146,8 +147,12 @@ body {
 
 /* Smartphones (portrait) */
 @media only screen and (max-width: 480px) {
-  #map { font-size: 0.2px;}
-  /*#mySidenav { font-size: 20px;padding-left: 0.5em; width:100%;margin:0;position:absolute; display: flex;}*/
-  .sidenav {width:100%;}
+  #map { font-size: 1vw;width:100%;}
+  #mySidenav { font-size: 2vw;
+
+
+}
+
+
 
 }
