@@ -146,24 +146,58 @@ body {
 }*/
 
 /* Smartphones (portrait) */
-@media only screen and (max-width: 480px) {
+/*@media only screen and (max-width: 480px) {
   #map { font-size: 2px;width:100%; height:85%;}
+  #mySidenav { font-size: 1vw;}
+  #inputSection {font-size: 4.6vw;}
+  #titletext {font-size: 5vw;}*/
+}
+/*FOR IPHONE 6*/
+/*@media only screen and (max-width: 360px) {
+  #map { font-size: 2px;width:100%; height:90%;}
+  #mySidenav { font-size: 1vw;}
+  #inputSection {font-size: 4.6vw;}
+  #titletext {font-size: 5vw;}
+}*/
+
+/*FOR MOTO G5 PLUS*/
+@media only screen and (max-width: 600px) {
+  #map { font-size: 2px;width:100%; height:90%;}
+  #mySidenav { font-size: 1vw;}
+  #inputSection {font-size: 2.8vw;}
+  #titletext {font-size: 2vw;}
+}
+
+@media only screen
+and (max-device-width : 1024px)
+and (min-device-width : 1600px) {
+  #map { font-size: 2px; height:90%; width:100%}
+  #mySidenav { font-size: 2vw;}
+  #inputSection {font-size: 1vw;}
+  #titletext {font-size: 2vw;}
+}
+
+@media only screen
+and (max-width: 600px)
+and (max-width: 800px) {
+  #map { font-size: 2px; height:90%;}
+  #mySidenav { font-size: 2vw;}
+  #inputSection {font-size: 1.8vw;}
+  #titletext {font-size: 2vw;}
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px)  {
+  #map { font-size: 2px;width:100%; height:90%;}
   #mySidenav { font-size: 1vw;}
   #inputSection {font-size: 4.6vw;}
   #titletext {font-size: 5vw;}
 }
-/*FOR IPHONE 6*/
-@media only screen and (max-width: 375px) {
-  #map { font-size: 2px;width:100%; height:90%;}
-  #mySidenav { font-size: 1vw;}
-  #inputSection {font-size: 4.3vw;}
-  #titletext {font-size: 5vw;}
-}
 
-/*FOR MOTO G5 PLUS*/
-@media only screen and (max-width: 402px) {
-  #map { font-size: 2px;width:100%; height:90%;}
-  #mySidenav { font-size: 1vw;}
-  #inputSection {font-size: 4.1vw;}
+@media only screen and (max-device-width: 420px) {
+  #map { font-size: 2px; height:90%;}
+  #mySidenav { font-size: 2vw;}
+  #inputSection {font-size: 3.8vw;}
   #titletext {font-size: 5vw;}
 }
