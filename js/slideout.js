@@ -1,16 +1,8 @@
-// function openNav() {
-//     document.getElementById("mySidenav").style.width = "220px";
-//     document.getElementById("main").style.marginLeft = "220px";
-//     document.getElementById("map").style.marginLeft = "220px";
-//     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-// }
-//
-// function closeNav() {
-//     document.getElementById("mySidenav").style.width = "0";
-//     document.getElementById("main").style.marginLeft= "0";
-//     document.getElementById("map").style.marginLeft = "0";
-//     document.body.style.backgroundColor = "#1F2C40";
-// }
+var starter_places [
+
+    ['NewYork1', 40.784513, -73.976630, 4],
+   ['NewYork2', 40.707522, -74.037055, 4]
+]
 
 var ViewModel = function() {
   //closing the nav bar
