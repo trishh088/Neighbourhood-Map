@@ -201,3 +201,7 @@ and (max-device-width : 480px)  {
   #inputSection {font-size: 3.8vw;}
   #titletext {font-size: 5vw;}
 }
+#pano {
+  width: 200px;
+  height: 200px;
+}
