@@ -9,13 +9,18 @@ $nytElem.text("");
        $.getJSON(nytimesUrl,function(data){
      $nytHeaderElem.text('New york Times articles about ' + cityStr);
      articles = data.response.docs;
-
+console.log(articles);
+//checks if articles are there or not and to handle if a ser puts a wierd query
+if(articles.length===0 ){
+  $nytHeaderElem.text(' articles are not there');
+}
+if(!$.trim(cityStr)) {
+  $nytHeaderElem.text('please enter an input first');
+}
+else
      for(var i=0;i<articles.length;i++){
-       var article = articles[i];
-       if(articles[i]===0){
-         $nytHeaderElem.text(' articles are not there');
 
-       }
+       var article = articles[i];
        $nytElem.append('<li class="article">'+
            				'<a href="'+article.web_url+'">'+article.headline.main+
            					'</a>'+
@@ -25,6 +30,8 @@ $nytElem.text("");
               $nytHeaderElem.text('New york Times articles could not be loaded ');
 
 });
+
+
 return false; //important as you wont get the output without it
 
 };

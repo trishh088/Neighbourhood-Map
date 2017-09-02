@@ -278,12 +278,27 @@ var ViewModel = function() {
     self.city = ko.observable("");
     //linking input to google map
 
-    // ko.observable(new google.maps.places.SearchBox(input));
-
-
-    //for area and cuisine input
-    self.area = ko.observable("");
-    self.cuisine = ko.observable("");
+//NEW YORK TIMES API
+// function loadData() {
+//   self.nytHeaderElem = $('#nytimes-header');
+//   self.nytElem = $('#nytimes-articles');
+//   self.city = ko.observable("");
+//   // clear out old data before new request
+//   self.nytElem.text("");
+//   //NYT AJax request
+//       var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + cityStr + '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
+//          $.getJSON(nytimesUrl,function(data){
+//        nytHeaderElem.text('New york Times articles about ' + cityStr);
+//        articles = data.response.docs;
+//   console.log(articles);
+//   //checks if articles are there or not and to handle if a ser puts a wierd query
+//   if(articles.length===0 ){
+//     $nytHeaderElem.text(' articles are not there');
+//   }
+//   if(!$.trim(cityStr)) {
+//     $nytHeaderElem.text('please enter an input first');
+//   }
+// }
 
 
 
