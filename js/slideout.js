@@ -118,8 +118,7 @@ function initMap() {
         //for changing the look of the map
         styles: styles,
         //allows users to change the map type to road , terrian or satellite
-        mapTypeControl: true,
-        types: ['restaurant']
+        mapTypeControl: true
     });
     var bounds = new google.maps.LatLngBounds();
 
@@ -139,17 +138,18 @@ function initMap() {
         if (places.length == 0) {
             window.alert("We did not find any place matching your request");
         }
-        // Search for hotels in the selected city, within the viewport of the map.
 
 
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
+
         places.forEach(function(place) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
                 return;
             }
+
             var icon = {
                 url: place.icon,
                 size: new google.maps.Size(71, 71),
@@ -178,14 +178,16 @@ function initMap() {
             marker.addListener('click', function() {
                 populateInfoWindow(this, largeInfowindow);
             });
+
             // This function populates the infowindow when the marker is clicked. We'll only allow
             // one infowindow which will open at the marker that is clicked, and populate based
             // on that markers position.
             function populateInfoWindow(marker, infowindow) {
                 // Check to make sure the infowindow is not already opened on this marker.
                 if (infowindow.marker != marker) {
+                  infowindow.setContent('');
+
                     infowindow.marker = marker;
-                    infowindow.setContent('');
                     // Make sure the marker property is cleared if the infowindow is closed.
                     infowindow.addListener('closeclick', function() {
                         infowindow.marker = null;
@@ -230,6 +232,7 @@ function initMap() {
                 bounds.extend(place.geometry.location);
             }
         });
+
         map.fitBounds(bounds);
         //  marker = new google.maps.Marker({
         //           map: map,

@@ -205,3 +205,25 @@ and (max-device-width : 480px)  {
   width: 200px;
   height: 200px;
 }
+.nytimes-container {
+    padding: 10px;
+
+    background-color: rgba(255,255,255,0.7);
+}
+
+.article-list {
+    margin: 0;
+    padding: 0;
+      font-size: 1em;
+}
+
+.article {
+    list-style-type: none;
+    padding:10px;
+    border-top: 1px solid #CCC;
+    font-size: 1vw;
+
+}
+/*.article:first-child {
+    border-top:none;
+}*/
