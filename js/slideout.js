@@ -142,6 +142,9 @@ function initMap() {
 
 
       });
+      document.getElementById('show-listings').addEventListener('click', showListings);
+      document.getElementById('hide-listings').addEventListener('click', hideListings);
+
       function populateInfoWindow(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
@@ -167,7 +170,7 @@ function initMap() {
     var input = document.getElementById('city');
     var city = new google.maps.places.SearchBox(input);
     // Bias the SearchBox results towards current map's viewport.
-    markers.push(null);
+    // markers.push(null);
     map.addListener('bounds_changed', function() {
         city.setBounds(map.getBounds());
     });
@@ -177,10 +180,10 @@ function initMap() {
         var places = city.getPlaces();
 
 
+
         if (places.length == 0) {
             window.alert("We did not find any place matching your request");
         }
-
 
 
         // For each place, get the icon, name and location.
@@ -210,8 +213,7 @@ function initMap() {
                 animation: google.maps.Animation.BOUNCE
             }));
             // Clear out the old markers.
-            // marker.setMap(null);
-
+            //  markers.setMap(null);
 
 
 
@@ -281,8 +283,35 @@ function initMap() {
 
 
     });
-
+    // This function will loop through the listings and hide them all.
 }
+
+            function hideListings() {
+            //   for (var i = 0; i < markers.length; i++) {
+            //     markers[i].setMap(null);
+            //   }
+            // }
+            for (var i = 0; i < markers.length; i++) {
+              if(city.length===0){
+                markers[i].setVisible(true);
+              } else {
+                markers[i].setVisible(false);
+              }
+            }
+            }
+
+            function showListings() {
+              for (var i = 0; i < markers.length; i++) {
+                if(city.length===0){
+                  markers[i].setVisible(false);
+                } else {
+                  markers[i].setVisible(true);
+                }
+              }
+
+            }
+
+
 
 // function loadData() {
 //    var $nytHeaderElem = $('#nytimes-header');
