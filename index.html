@@ -42,9 +42,9 @@
 
         </header>
       </main> -->
-      <div id="mySidenav" class="sidenav">
+      <div id="mySidenav" class="sidenav" data-bind:"style:{width:navIsOpen?'220px':'0'}" >
   <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
-  <a data-bind="click:closeNav" + "style:{width:navIsOpen?'220px':'0'}" class="closebtn" style="cursor:pointer">&times;</a>
+  <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
 
   <div id="inputSection">
             <h3><font color="#FFB6C1">What are you looking for today?</h3>
@@ -62,13 +62,13 @@
         </div>
 </div>
 
-<div id="main" >
+<div id="main" data-bind:"style:{marginLeft:navIsOpen?'220px':'0px'}">
 
 <!-- <h2 id="titletext"><button class="toggle-button" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;BURRITO🌯</button>🧀🍔PLACES TO GRAB AND GRUB🍱🍜</h2> -->
-<h3 id="titletext"><button class="toggle-button" style="font-size:20px;cursor:pointer" data-bind="click:openNav" + "style:{marginLeft:navIsOpen?'220px':'0px'}">&#9776;BURRITO🌯</button>🧀🍔FIND ANYTHING AND EVERYTHING HERE🍱🍜</h3>
+<h3 id="titletext"><button class="toggle-button" style="font-size:20px;cursor:pointer" data-bind="click:openNav" >&#9776;BURRITO🌯</button>🧀🍔FIND ANYTHING AND EVERYTHING HERE🍱🍜</h3>
 
 </div>
- <div id="map" ></div>
+ <div id="map" data-bind:"style:{marginLeft:navIsOpen?'220px':'0px'}">></div>
 
 
  <script src="js/app.js"></script>

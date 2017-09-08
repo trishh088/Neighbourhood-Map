@@ -328,7 +328,7 @@ var ViewModel = function() {
     var self = this;
 self.navIsOpen = ko.observable(false);
 self.closeNav = function () {
-  self.navIsOpen(true);
+  self.navIsOpen(false);
 }
 self.openNav = function () {
   self.navIsOpen(true);
