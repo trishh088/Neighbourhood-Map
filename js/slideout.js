@@ -120,19 +120,61 @@ function initMap() {
         //allows users to change the map type to road , terrian or satellite
         mapTypeControl: true
     });
+    var locations = [
+      {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
+      {title: 'Chelsea Loft 40.7444883,-73.9949465', location: {lat: 40.7444883, lng: -73.9949465}},
+      {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
+      {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
+      {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+    ];
     var bounds = new google.maps.LatLngBounds();
+    var largeInfowindow = new google.maps.InfoWindow();
+    for (var i = 0; i < locations.length; i++) {
+      // Get the position from the location array.
+      var position = locations[i].location;
+      var title = locations[i].title;
+      // Create a marker per location, and put into markers array.
+      var marker = new google.maps.Marker({
+        map: map,
+        position: position,
+        title: title,
+        animation: google.maps.Animation.BOUNCE,
 
+
+      });
+      function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+          });
+        }
+      }
+
+      // Push the marker to our array of markers.
+      markers.push(marker);
+      // Create an onclick event to open an infowindow at each marker.
+      marker.addListener('click', function() {
+        populateInfoWindow(this, largeInfowindow);
+      });
+      bounds.extend(markers[i].position);
+    };
 
     var input = document.getElementById('city');
-    ViewModel.city = new google.maps.places.SearchBox(input);
+    var city = new google.maps.places.SearchBox(input);
     // Bias the SearchBox results towards current map's viewport.
+    markers.push(null);
     map.addListener('bounds_changed', function() {
-        ViewModel.city.setBounds(map.getBounds());
+        city.setBounds(map.getBounds());
     });
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
-    ViewModel.city.addListener('places_changed', function() {
-        var places = ViewModel.city.getPlaces();
+    city.addListener('places_changed', function() {
+        var places = city.getPlaces();
 
 
         if (places.length == 0) {
@@ -150,25 +192,26 @@ function initMap() {
                 return;
             }
 
-            var icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(55, 55)
-            };
-            var largeInfowindow = new google.maps.InfoWindow();
+
+            // var icon = {
+            //     url: place.icon,
+            //     size: new google.maps.Size(71, 71),
+            //     origin: new google.maps.Point(0, 0),
+            //     anchor: new google.maps.Point(17, 34),
+            //     scaledSize: new google.maps.Size(55, 55)
+            // };
             // Create a marker for each place.
 
             var marker = (new google.maps.Marker({
                 map: map,
-                icon: icon,
+                // icon: icon,
                 title: place.name,
                 position: place.geometry.location,
                 animation: google.maps.Animation.BOUNCE
             }));
             // Clear out the old markers.
             // marker.setMap(null);
+
 
 
 
@@ -234,17 +277,6 @@ function initMap() {
         });
 
         map.fitBounds(bounds);
-        //  marker = new google.maps.Marker({
-        //           map: map,
-        //           draggable: true,
-        //           animation: google.maps.Animation.DROP,
-        //           position: {lat: 40.719526, lng: -74.0089934}
-        //         });
-        //         // On idle, change marker animation to bounce
-        //            google.maps.event.addListener(map, 'idle', function () {
-        //                marker.setAnimation(google.maps.Animation.BOUNCE);
-        //            });
-        // Search for hotels in the selected city, within the viewport of the map.
 
 
 
@@ -252,55 +284,80 @@ function initMap() {
 
 }
 
-
-
-var ViewModel = function() {
-    var self = this;
-
-
-
-    //closing the nav bar
-    self.closeNav = function() {
-        closeNav: ko.observable(document.getElementById("main").style.marginLeft = "0px"),
-        ko.observable(document.getElementById("mySidenav").style.width = "0"),
-        ko.observable(document.getElementById("map").style.marginLeft = "0"),
-        ko.observable(document.body.style.backgroundColor = "#1F2C40")
-    }
-    //opening the nav bar
-    self.openNav = function() {
-        openNav: ko.observable(document.getElementById("main").style.marginLeft = "220px"),
-        ko.observable(document.getElementById("mySidenav").style.width = "220px"),
-        ko.observable(document.getElementById("map").style.marginLeft = "220px"),
-        ko.observable(document.body.style.backgroundColor = "rgba(0,0,0,0.4)")
-    }
-
-    //for taking the city input
-    self.city = ko.observable("");
-    //linking input to google map
-
-//NEW YORK TIMES API
 // function loadData() {
-//   self.nytHeaderElem = $('#nytimes-header');
-//   self.nytElem = $('#nytimes-articles');
-//   self.city = ko.observable("");
+//    var $nytHeaderElem = $('#nytimes-header');
+//   var $nytElem = $('#nytimes-articles');
+//    ViewModel.city = $('#city').val(); //city input
 //   // clear out old data before new request
-//   self.nytElem.text("");
+//   $nytElem.text("");
 //   //NYT AJax request
-//       var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + cityStr + '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
+//       var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + ViewModel.city + '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
 //          $.getJSON(nytimesUrl,function(data){
-//        nytHeaderElem.text('New york Times articles about ' + cityStr);
+//        $nytHeaderElem.text('New york Times articles about ' + ViewModel.city);
 //        articles = data.response.docs;
 //   console.log(articles);
 //   //checks if articles are there or not and to handle if a ser puts a wierd query
 //   if(articles.length===0 ){
 //     $nytHeaderElem.text(' articles are not there');
 //   }
-//   if(!$.trim(cityStr)) {
+//   if(!$.trim(ViewModel.city)) {
 //     $nytHeaderElem.text('please enter an input first');
-//   }
-// }
+//   }else
+//        for(var i=0;i<articles.length;i++){
+//
+//          var article = articles[i];
+//          $nytElem.append('<li class="article">'+
+//              				'<a href="'+article.web_url+'">'+article.headline.main+
+//              					'</a>'+
+//              				'<p>' + article.snippet + '</p>'+
+//              				'</li>');     };
+//                   }).fail(function(e) {
+//                 $nytHeaderElem.text('New york Times articles could not be loaded ');
+//
+//   });
+//   return false; //important as you wont get the output without it
+//
+//   };
+//   // $('#inputSection').submit(loadData); //calls the load data function
+//   clickContainer = document.getElementById('nyt');
+//   // clickContainer.addEventListener('submit', loadData);
+//   clickContainer.addEventListener('click', loadData);
+
+
+var ViewModel = function() {
+    var self = this;
+self.navIsOpen = ko.observable(false);
+self.closeNav = function () {
+  self.navIsOpen(true);
+}
+self.openNav = function () {
+  self.navIsOpen(true);
+}
+
+
+
+    // //closing the nav bar
+    // self.closeNav = function() {
+    //     closeNav: ko.observable(document.getElementById("main").style.marginLeft = "0px"),
+    //     ko.observable(document.getElementById("mySidenav").style.width = "0"),
+    //     ko.observable(document.getElementById("map").style.marginLeft = "0"),
+    //     ko.observable(document.body.style.backgroundColor = "#1F2C40")
+    // }
+    // //opening the nav bar
+    // self.openNav = function() {
+    //     openNav: ko.observable(document.getElementById("main").style.marginLeft = "220px"),
+    //     ko.observable(document.getElementById("mySidenav").style.width = "220px"),
+    //     ko.observable(document.getElementById("map").style.marginLeft = "220px"),
+    //     ko.observable(document.body.style.backgroundColor = "rgba(0,0,0,0.4)")
+    // }
+
+    //for taking the city input
+    self.city = ko.observable("");
+    //linking input to google map
+
 
 
 
 }
+
 ko.applyBindings(new ViewModel());
