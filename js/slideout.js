@@ -120,7 +120,12 @@ function initMap() {
         //allows users to change the map type to road , terrian or satellite
         mapTypeControl: true
     });
-
+    // to make the markers visible even if the viewport is reduced
+    google.maps.event.addDomListener(window, "resize", function() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+    });
     //this is for predefined locations on start up
     var locations = [
       {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
