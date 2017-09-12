@@ -107,6 +107,13 @@ var styles = [{
 
 var map;
 var markers = [];
+var locations = [
+  {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
+  {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
+  {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
+  {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
+  {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -127,13 +134,13 @@ function initMap() {
         map.setCenter(center);
     });
     //this is for predefined locations on start up
-    var locations = [
-      {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-      {title: 'Chelsea Loft 40.7444883,-73.9949465', location: {lat: 40.7444883, lng: -73.9949465}},
-      {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-      {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-      {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-    ];
+    // var locations = [
+    //   {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
+    //   {title: 'Chelsea Loft 40.7444883,-73.9949465', location: {lat: 40.7444883, lng: -73.9949465}},
+    //   {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
+    //   {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
+    //   {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+    // ];
     var bounds = new google.maps.LatLngBounds();
     var largeInfowindow = new google.maps.InfoWindow();
     for (var i = 0; i < locations.length; i++) {
@@ -414,8 +421,38 @@ self.closeNav = function () {
 self.openNav = function () {
   self.navIsOpen(true);
 }
+self.content = locations.title;
+self.infoWindow = function() {
+  infoWindow = new google.maps.InfoWindow({
+  content = content
+  });
+  info.addListener('click', function() {
+    infoWindow.open(map, this),
+      info.setAnimation(google.maps.Animation.BOUNCE) //Markers will bounce when clicked
+    setTimeout(function() {
+      info.setAnimation(null)
+    }, 2000); //Change value to null after 2 seconds and stop markers from bouncing
+  });
 
-
+}
+// self.markers = [];
+// // self.locations = ko.observableArray(locations);
+//
+// //Map info windows to each item in the markers array
+//   self.markers.map(function(info) {
+//     infoWindow = new google.maps.InfoWindow({
+//       content: content
+//     });
+//     //Add click event to each marker to open info window
+//     info.addListener('click', function() {
+//       infoWindow.open(map, this),
+//         info.setAnimation(google.maps.Animation.BOUNCE) //Markers will bounce when clicked
+//       setTimeout(function() {
+//         info.setAnimation(null)
+//       }, 2000); //Change value to null after 2 seconds and stop markers from bouncing
+//     });
+//
+//   });
 
     // //closing the nav bar
     // self.closeNav = function() {

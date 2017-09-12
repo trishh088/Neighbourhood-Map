@@ -183,7 +183,7 @@ and (max-width: 800px) {
   #map { font-size: 2px; height:90%;}
   #mySidenav { font-size: 2vw;}
   #inputSection {font-size: 1.8vw;}
-  #titletext {font-size: 2vw;}
+  #titletext {font-size: 5vw;}
 }
 
 @media only screen
