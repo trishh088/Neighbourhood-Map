@@ -428,7 +428,7 @@ self.listViewClick = function(list) {
     infoWindow.open(map, list.markers); // Open info window on correct marker when list item is clicked
 
 }
-console.log(title);
+
 // self.markers = [];
 // // self.locations = ko.observableArray(locations);
 //
