@@ -104,7 +104,7 @@ var styles = [{
         color: '#17263c'
     }]
 }];
-
+var infoWindow;
 var map;
 var markers = [];
 var locations = [
@@ -421,19 +421,8 @@ self.closeNav = function () {
 self.openNav = function () {
   self.navIsOpen(true);
 }
-self.content = locations.title;
-self.infoWindow = function() {
-  infoWindow = new google.maps.InfoWindow({
-  content = content
-  });
-  info.addListener('click', function() {
-    infoWindow.open(map, this),
-      info.setAnimation(google.maps.Animation.BOUNCE) //Markers will bounce when clicked
-    setTimeout(function() {
-      info.setAnimation(null)
-    }, 2000); //Change value to null after 2 seconds and stop markers from bouncing
-  });
-
+self.listViewClick = function(gym) {
+   infoWindow.open(map, markers);
 }
 // self.markers = [];
 // // self.locations = ko.observableArray(locations);
