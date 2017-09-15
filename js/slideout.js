@@ -425,7 +425,8 @@ self.openNav = function () {
 self.listViewClick = function(list) {
   map.setZoom(15); //Zoom map view
     map.panTo(list.location); // Pan to correct marker when list view item is clicked
-    infoWindow.open(map, list.markers); // Open info window on correct marker when list item is clicked
+list.marker.setAnimation(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
+    infoWindow.open(map, list.marker); // Open info window on correct marker when list item is clicked
 
 }
 
