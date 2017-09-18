@@ -54,9 +54,13 @@
             <br>
             <font color="black"><input id="hide-listings" type="button" value="Hide Listings">
             <input id="show-listings" type="button" value="Show Listings"><font color="black">
-              <font color="#FFB6C1"><ul data-bind="foreach : locations, click: listViewClick ">
-                <li data-bind="text: title"></li>
+              <font color="#FFB6C1">
+                <ul data-bind="foreach : locations">
+                  <!-- <li data-bind="foreach: self.locationArray"> -->
+                <li data-bind="text: title,  click: $parent.selectItem"></li>
+              <!-- </li> -->
               </ul>
+
             <font color="black">  <input id="city" type="text" data-bind="textInput:city" placeholder="serach city/food/place">
             <br><br>
             <div class="nytimes-container">

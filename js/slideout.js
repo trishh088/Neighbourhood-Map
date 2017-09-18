@@ -427,18 +427,56 @@ self.openNav = function () {
 }
 
 self.locationArray = ko.observableArray([locations]);
+self.title = ko.observable("");
 console.log(self.locationArray());
 
-self.listViewClick = function(list,i) {
-    map.panTo(self.locationArray()); // Pan to correct marker when list view item is clicked
-map.setZoom(15); //Zoom map view
-// list.markers.setAnimation(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
-    // infoWindow.open(map, list.markers); // Open info window on correct marker when list item is clicked
-google.maps.event.trigger(list, 'click');
 
-}
+// self.listViewClick = function(list,i) {
+//     map.panTo(self.locationArray()); // Pan to correct marker when list view item is clicked
+// map.setZoom(15); //Zoom map view
+//
+// // list.markers.setAnimation(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
+//     // infoWindow.open(map, list.markers); // Open info window on correct marker when list item is clicked
+// google.maps.event.trigger(self.locationArray(), 'click');
+//
+// }
 
+//create the markerArray for markers to populate on creation
+       self.markerArray = ko.observableArray();
 
+self.locationArray = ko.computed(function() {
+            return ko.utils.arrayFilter(self.markerArray(), function(marker) {
+                return marker.title.toLowerCase().indexOf(self.query().toLowerCase()) !== -1;
+            });
+        }, self); //closure for self.locationArray
+self.locationArray.subscribe(function() {
+    var newArray = ko.utils.compareArrays(self.markerArray(), self.locationArray());
+    ko.utils.arrayForEach(newArray, function(marker) {
+        if (marker.status === 'deleted') {
+            marker.value.setMap(null);
+        } else {
+            marker.value.setMap(map);
+        }
+    }); //closuree for var newArray
+}); //closure for self.locationArray.subscribe
+//Highlight map marker if list item is clicked.
+self.selectItem = function(listItem) {
+            google.maps.event.trigger(listItem, 'click');
+        };
+// for (var j = 0; j < self.locationArray().length; j++) {
+//   // it filters locationArray() as user starts typing
+//     if (self.locationArray()()[j].title.toLowerCase().indexOf(filter) > -1) {
+//         self.locationArray()()[j].show(true); // shows locations according to match with user key words
+//         if (self.locationArray()()[j].markers) {
+//             self.locationArray()()[j].markers.setVisible(true); // shows/filters map markers according to match with user key words
+//         }
+//     } else {
+//         self.locationArray()()[j].show(false); // hides locations according to match with user key words
+//         if (self.locationArray()()[j].markers) {
+//             self.locationArray()()[j].markers.setVisible(false); // hides map markers according to match with user key words
+//         }
+//     }
+// }
 
 
 // self.markers = [];
