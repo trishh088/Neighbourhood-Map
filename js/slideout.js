@@ -1,3 +1,4 @@
+'use strict';
 var styles = [{
     elementType: 'geometry',
     stylers: [{
@@ -176,6 +177,7 @@ function initMap() {
           if (infowindow.marker != marker) {
             infowindow.setContent('');
 
+
               infowindow.marker = marker;
               // Make sure the marker property is cleared if the infowindow is closed.
               infowindow.addListener('closeclick', function() {
@@ -255,8 +257,8 @@ function initMap() {
             }
 
 
-            // var icon = {
             //     url: place.icon,
+            // var icon = {
             //     size: new google.maps.Size(71, 71),
             //     origin: new google.maps.Point(0, 0),
             //     anchor: new google.maps.Point(17, 34),
@@ -412,8 +414,10 @@ function initMap() {
 //   clickContainer.addEventListener('click', loadData);
 
 
+
 var ViewModel = function() {
     var self = this;
+    // for the slide out menu
 self.navIsOpen = ko.observable(false);
 self.closeNav = function () {
   self.navIsOpen(false);
@@ -422,13 +426,20 @@ self.openNav = function () {
   self.navIsOpen(true);
 }
 
-self.listViewClick = function(list) {
-  map.setZoom(15); //Zoom map view
-    map.panTo(list.location); // Pan to correct marker when list view item is clicked
-list.marker.setAnimation(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
-    infoWindow.open(map, list.marker); // Open info window on correct marker when list item is clicked
+self.locationArray = ko.observableArray([locations]);
+console.log(self.locationArray());
+
+self.listViewClick = function(list,i) {
+    map.panTo(self.locationArray()); // Pan to correct marker when list view item is clicked
+map.setZoom(15); //Zoom map view
+// list.markers.setAnimation(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
+    // infoWindow.open(map, list.markers); // Open info window on correct marker when list item is clicked
+google.maps.event.trigger(list, 'click');
 
 }
+
+
+
 
 // self.markers = [];
 // // self.locations = ko.observableArray(locations);
@@ -467,6 +478,8 @@ list.marker.setAnimation(google.maps.Animation.DROP); // Bounce marker when list
     //for taking the city input
     self.city = ko.observable("");
     //linking input to google map
+
+
 
 
 
