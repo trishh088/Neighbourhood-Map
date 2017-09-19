@@ -145,6 +145,7 @@ var locations = [{
     }
 ];
 
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -165,7 +166,9 @@ function initMap() {
     });
 
     var bounds = new google.maps.LatLngBounds();
-    var largeInfowindow = new google.maps.InfoWindow();
+    var largeInfowindow = new google.maps.InfoWindow({
+      maxWidth: 200
+    });
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
         var position = locations[i].location;
@@ -176,12 +179,20 @@ function initMap() {
             position: position,
             title: title,
             animation: google.maps.Animation.BOUNCE,
-
+            icon: 'https://www.google.com/mapfiles/marker.png',
 
         });
+        //To change the colour of the marker colouron interaction through listview or by manually clicking
+            google.maps.event.addListener(marker, 'click', function (marker, i) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setIcon('https://www.google.com/mapfiles/marker.png'); // set back to default
+                }
+                this.setIcon('https://www.google.com/mapfiles/marker_green.png');
+              });
 
 
         viewModel.locationArray()[i].marker = marker;
+
 
 
 
@@ -189,7 +200,6 @@ function initMap() {
             // Check to make sure the infowindow is not already opened on this marker.
             if (infowindow.marker != marker) {
                 infowindow.setContent('');
-
 
                 infowindow.marker = marker;
                 // Make sure the marker property is cleared if the infowindow is closed.
@@ -214,6 +224,7 @@ function initMap() {
                                 pitch: 30
                             }
                         };
+
                         var panorama = new google.maps.StreetViewPanorama(
                             document.getElementById('pano'), panoramaOptions);
                     } else {
@@ -237,8 +248,14 @@ function initMap() {
             populateInfoWindow(this, largeInfowindow);
         });
         bounds.extend(markers[i].position);
+
     };
 }
+
+function mapError() {
+  alert("Map could not be loaded at this moment. Please try again");
+}
+
 
 var ViewModel = function() {
     var self = this;
@@ -256,22 +273,13 @@ var ViewModel = function() {
 
     self.markerArray = ko.observableArray();
 
- /*   self.locationArray.subscribe(function() {
-        var newArray = ko.utils.compareArrays(self.markerArray(), self.locationArray());
-        ko.utils.arrayForEach(newArray, function(marker) {
-            if (marker.status === 'deleted') {
-                marker.value.setMap(null);
-            } else {
-                marker.value.setMap(map);
-            }
-        }); //closuree for var newArray
-    });*/ //closure for self.locationArray.subscribe
 
     self.selectItem = function(listItem) {
+      //pan down infowindow by 55px to keep whole infowindow on screen
+      map.panBy(0, 55);
         console.log(listItem);
         google.maps.event.trigger(listItem.marker, 'click');
         map.setZoom(20);
-       // map.panTo(locationArray());
     };
 }
 
