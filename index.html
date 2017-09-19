@@ -14,82 +14,38 @@
 </head>
 
 <body>
-    <!-- <nav id="menu">
-        <div>
-            <h3><font color="#FFB6C1">Refine your cravings</h3>
-              <br><br>
 
-            <span> City</span>
+    <div id="mySidenav" class="sidenav" data-bind="style:{width:navIsOpen()?'220px':'0'}">
+        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+        <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
+
+        <div id="inputSection">
+
+
             <br>
-            <font color="black">  <input id="show-listings" type="text" value="Show Listings">
-            <br><br>
-          <span> <font color="#FFB6C1"> Area </span>
-            <br>
-        <font color="black">  <input id="show-listings" type="text" value="Show Listings">
-          <br><br>
-          <span> <font color="#FFB6C1"> Type of Cuisine </span>
-          <br>
-          <font color="black"><input id="hide-listings" type="text" value="Hide Listings">
-            <br> <br>
-            <button>GO!</button>
+            <font color="#FFB6C1">
+                <ul data-bind="foreach: locationArray">
+                    <li data-bind="text: title,  click: $parent.selectItem"></li>
+                </ul>
+
+
         </div>
-      </nav>
+    </div>
 
-      <main id="panel">
-        <header>
-        <h3 id="titletext">  <button class="toggle-button">☰BURRITO🌯</button> 🧀🍔PLACES TO GRAB AND GRUB🍱🍜</h3>
+    <div id="main" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">
 
+        <h3 id="titletext"><button class="toggle-button" style="font-size:20px;cursor:pointer" data-bind="click:openNav">&#9776;BURRITO🌯</button>🧀🍔FIND ANYTHING AND EVERYTHING HERE🍱🍜</h3>
 
-        </header>
-      </main> -->
-      <div id="mySidenav" class="sidenav" data-bind="style:{width:navIsOpen()?'220px':'0'}" >
-  <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
-  <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
+    </div>
+    <div id="map" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">></div>
 
-  <div id="inputSection">
-            <h3><font color="#FFB6C1">What are you looking for today?</h3>
-              <br><br>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?&libraries=places,geometry&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap">
+    </script>
+    <!-- &zoom=9&size=400x400 -->
 
-            <span> Find Here</span>
-            <br>
-            <font color="black"><input id="hide-listings" type="button" value="Hide Listings">
-            <input id="show-listings" type="button" value="Show Listings"><font color="black">
-              <font color="#FFB6C1">
-                <ul data-bind="foreach : locations">
-                  <!-- <li data-bind="foreach: self.locationArray"> -->
-                <li data-bind="text: title,  click: $parent.selectItem"></li>
-              <!-- </li> -->
-              </ul>
+</body>
 
-            <font color="black">  <input id="city" type="text" data-bind="textInput:city" placeholder="serach city/food/place">
-            <br><br>
-            <div class="nytimes-container">
-                <h3 id="nytimes-header">New York Times Articles </h3>
-                  <button id="nyt">GO!</button>
-                <ul id="nytimes-articles" class="article-list">What's going on in your new city? Enter an address and hit submit and the NY Times will tell you here!</ul>
-            </div>
-        </div>
-</div>
-
-<div id="main" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">
-
-<!-- <h2 id="titletext"><button class="toggle-button" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;BURRITO🌯</button>🧀🍔PLACES TO GRAB AND GRUB🍱🍜</h2> -->
-<h3 id="titletext"><button class="toggle-button" style="font-size:20px;cursor:pointer" data-bind="click:openNav" >&#9776;BURRITO🌯</button>🧀🍔FIND ANYTHING AND EVERYTHING HERE🍱🍜</h3>
-
-</div>
- <div id="map" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">></div>
-
-
- <script src="js/app.js"></script>
-<script src="js/lib/jquery.min.js"></script>
-      <script src="js/lib/knockout-3.2.0.js"></script>
-      <script src="js/ko.js"></script>
-      <script src="js/koNYT.js"></script>
-      <script src="js/slideout.js"></script>
-      <script async defer
-          src="https://maps.googleapis.com/maps/api/js?&libraries=places,geometry&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap">
-      </script>
-<!-- &zoom=9&size=400x400 -->
-
-    </body>
-  </html>
+</html>

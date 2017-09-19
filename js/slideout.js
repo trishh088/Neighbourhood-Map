@@ -412,7 +412,7 @@ function initMap() {
 //   clickContainer = document.getElementById('nyt');
 //   // clickContainer.addEventListener('submit', loadData);
 //   clickContainer.addEventListener('click', loadData);
-
+console.log(locations);
 
 
 var ViewModel = function() {
@@ -435,7 +435,7 @@ console.log(self.locationArray());
 //     map.panTo(self.locationArray()); // Pan to correct marker when list view item is clicked
 // map.setZoom(15); //Zoom map view
 //
-// // list.markers.setAnimation(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
+// // list.markers.a(google.maps.Animation.DROP); // Bounce marker when list view item is clicked
 //     // infoWindow.open(map, list.markers); // Open info window on correct marker when list item is clicked
 // google.maps.event.trigger(self.locationArray(), 'click');
 //
@@ -444,11 +444,11 @@ console.log(self.locationArray());
 //create the markerArray for markers to populate on creation
        self.markerArray = ko.observableArray();
 
-self.locationArray = ko.computed(function() {
-            return ko.utils.arrayFilter(self.markerArray(), function(marker) {
-                return marker.title.toLowerCase().indexOf(self.query().toLowerCase()) !== -1;
-            });
-        }, self); //closure for self.locationArray
+// self.locationArray = ko.computed(function() {
+//             return ko.utils.arrayFilter(self.markerArray(), function(marker) {
+//                 return marker.title.toLowerCase().indexOf(self.query().toLowerCase()) !== -1;
+//             });
+//         }, self); //closure for self.locationArray
 self.locationArray.subscribe(function() {
     var newArray = ko.utils.compareArrays(self.markerArray(), self.locationArray());
     ko.utils.arrayForEach(newArray, function(marker) {
@@ -462,6 +462,8 @@ self.locationArray.subscribe(function() {
 //Highlight map marker if list item is clicked.
 self.selectItem = function(listItem) {
             google.maps.event.trigger(listItem, 'click');
+            map.setZoom(15);
+            map.panTo(locationArray());
         };
 // for (var j = 0; j < self.locationArray().length; j++) {
 //   // it filters locationArray() as user starts typing
