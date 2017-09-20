@@ -169,6 +169,7 @@ function initMap() {
     var largeInfowindow = new google.maps.InfoWindow({
       maxWidth: 200
     });
+
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
         var position = locations[i].location;
@@ -269,19 +270,28 @@ var ViewModel = function() {
     }
 
     self.locationArray = ko.observableArray(locations);
-    self.title = ko.observable("");
 
-    self.markerArray = ko.observableArray();
+    self.query = ko.observable('');
+    self.search = function(value) {
+      for(var x in self.locationsArray) {
+      if(self.locationsArray[x].title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+        self.locationsArray.push(self.locationsArray[x]);
+      }
+    }
+  }
+self.query.subscribe(self.search);
+
 
 
     self.selectItem = function(listItem) {
-      //pan down infowindow by 55px to keep whole infowindow on screen
-      map.panBy(0, 55);
+      //pan down infowindow by 555px to keep whole infowindow on screen
+      map.panBy(0, -555);
         console.log(listItem);
         google.maps.event.trigger(listItem.marker, 'click');
-        map.setZoom(20);
+        map.setZoom(15);
     };
 }
+
 
 
 
