@@ -281,6 +281,22 @@ var ViewModel = function() {
   }
 self.query.subscribe(self.search);
 
+// self.query = ko.observable('');
+//     self.search = function() {
+//
+//         var SearchValue = this.query();
+//         if (SearchValue.length === 0)  {
+//             for (i = 0; i < self.locationArray.length; i++) {
+//                 if (self.locationArray[i].title.toLowerCase().indexOf(SearchValue.toLowerCase()) > -1) {
+//                     self.locationArray[i].show(true);
+//                     self.locationArray[i].setVisible(true);
+//                 } else {
+//                     self.locationArray[i].show(false);
+//                     self.locationArray[i].setVisible(false);
+//                 }
+//             }
+//         }
+//     };
 
 
     self.selectItem = function(listItem) {

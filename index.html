@@ -20,7 +20,7 @@
         <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
 
         <div id="inputSection">
-          <input placeholder="Search…" type="search" data-bind="foreach: locationArray,value: query, valueUpdate: 'keyup'" autocomplete="on">
+          <input placeholder="Search…" type="search" data-bind="foreach: locationArray,value: query, valueUpdate: 'keyup',event:{keyup: search}" autocomplete="on">
 
             <br>
             <font color="#FFB6C1">
