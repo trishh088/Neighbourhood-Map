@@ -107,6 +107,7 @@ var styles = [{
 }];
 var infoWindow;
 var map;
+var places = [];
 var markers = [];
 var locations = [{
         title: 'Park Ave Penthouse',
@@ -137,7 +138,7 @@ var locations = [{
         }
     },
     {
-        title: 'Chinatown Homey Space',
+        title: 'Chinatown New York City',
         location: {
             lat: 40.7180628,
             lng: -73.9961237
@@ -167,7 +168,7 @@ function initMap() {
 
     var bounds = new google.maps.LatLngBounds();
     var largeInfowindow = new google.maps.InfoWindow({
-      maxWidth: 200
+        maxWidth: 200
     });
 
     for (var i = 0; i < locations.length; i++) {
@@ -181,15 +182,17 @@ function initMap() {
             title: title,
             animation: google.maps.Animation.BOUNCE,
             icon: 'https://www.google.com/mapfiles/marker.png',
+            wikilink: '',
+            url: ''
 
         });
         //To change the colour of the marker colouron interaction through listview or by manually clicking
-            google.maps.event.addListener(marker, 'click', function (marker, i) {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setIcon('https://www.google.com/mapfiles/marker.png'); // set back to default
-                }
-                this.setIcon('https://www.google.com/mapfiles/marker_green.png');
-              });
+        google.maps.event.addListener(marker, 'click', function(marker, i) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setIcon('https://www.google.com/mapfiles/marker.png'); // set back to default
+            }
+            this.setIcon('https://www.google.com/mapfiles/marker_green.png');
+        });
 
 
         viewModel.locationArray()[i].marker = marker;
@@ -197,10 +200,13 @@ function initMap() {
 
 
 
-        function populateInfoWindow(marker, infowindow) {
+        function populateInfoWindow(marker, infowindow, locationItem) {
+
             // Check to make sure the infowindow is not already opened on this marker.
             if (infowindow.marker != marker) {
                 infowindow.setContent('');
+
+
 
                 infowindow.marker = marker;
                 // Make sure the marker property is cleared if the infowindow is closed.
@@ -217,7 +223,25 @@ function initMap() {
                         var nearStreetViewLocation = data.location.latLng;
                         var heading = google.maps.geometry.spherical.computeHeading(
                             nearStreetViewLocation, marker.position);
-                        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+
+                        var list;
+                        var articles;
+                        var fullList = '<div>' + '</div><br/><strong>Related NY Times Articles:</strong><br/>';
+                        var nytimeurl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title + '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
+                        var Nytapi = $.getJSON(nytimeurl, function(data) {
+                                articles = data.response.docs;
+                                for (var i = 0; i < articles.length; i++) {
+                                    var article = articles[i];
+                                    list = '<a href="' + article.web_url + '"">' + article.headline.main + '</a><br/>';
+                                    fullList = fullList + list;
+                                }
+                                infowindow.setContent('<div' + '""' + '</div>' + '<div>' + fullList + '</div>');
+
+                            })
+                            .error(function() {
+                                alert("Something went wrong! NYT articles culd not be loaded");
+                            });
+                        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>' + '<div>' + "" + '</div>');
                         var panoramaOptions = {
                             position: nearStreetViewLocation,
                             pov: {
@@ -232,6 +256,7 @@ function initMap() {
                         infowindow.setContent('<div>' + marker.title + '</div>' +
                             '<div>No Street View Found</div>');
                     }
+
                 }
                 // Use streetview service to get the closest streetview image within
                 // 50 meters of the markers position
@@ -253,9 +278,12 @@ function initMap() {
     };
 }
 
+
 function mapError() {
-  alert("Map could not be loaded at this moment. Please try again");
+    alert("Map could not be loaded at this moment. Please try again");
 }
+
+
 
 
 var ViewModel = function() {
@@ -271,37 +299,38 @@ var ViewModel = function() {
 
     self.locationArray = ko.observableArray(locations);
 
-    self.query = ko.observable('');
-    self.search = function(value) {
-      for(var x in self.locationsArray) {
-      if(self.locationsArray[x].title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-        self.locationsArray.push(self.locationsArray[x]);
-      }
-    }
-  }
-self.query.subscribe(self.search);
+//for searching the locations
+    this.showAll = function(variable) {
+        for (var i = 0; i < places.length; i++) {
+            places[i].show(variable);
+            places[i].setVisible(variable);
+        }
+    };
 
-// self.query = ko.observable('');
-//     self.search = function() {
-//
-//         var SearchValue = this.query();
-//         if (SearchValue.length === 0)  {
-//             for (i = 0; i < self.locationArray.length; i++) {
-//                 if (self.locationArray[i].title.toLowerCase().indexOf(SearchValue.toLowerCase()) > -1) {
-//                     self.locationArray[i].show(true);
-//                     self.locationArray[i].setVisible(true);
-//                 } else {
-//                     self.locationArray[i].show(false);
-//                     self.locationArray[i].setVisible(false);
-//                 }
-//             }
-//         }
-//     };
+    this.inputValue = ko.observable('');
+    this.filtersearch = function() {
+        var SearchValue = this.inputValue();
+        if (SearchValue.length === 0) {
+            this.showAll(true);
+        } else {
+            for (var i = 0; i < places.length; i++) {
+                if (places[i].title.toLowerCase()
+                    .indexOf(SearchValue.toLowerCase()) > -1) {
+                    places[i].show(true);
+                    places[i].setVisible(true);
+                } else {
+                    places[i].show(false);
+                    places[i].setVisible(false);
+                }
+            }
+
+        }
+    };
 
 
     self.selectItem = function(listItem) {
-      //pan down infowindow by 555px to keep whole infowindow on screen
-      map.panBy(0, -555);
+        //pan down infowindow by 55px to keep whole infowindow on screen
+        map.panBy(0, -55);
         console.log(listItem);
         google.maps.event.trigger(listItem.marker, 'click');
         map.setZoom(15);

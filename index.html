@@ -20,15 +20,14 @@
         <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
 
         <div id="inputSection">
-          <input placeholder="Search…" type="search" data-bind="foreach: locationArray,value: query, valueUpdate: 'keyup',event:{keyup: search}" autocomplete="on">
-
+            <input type="text" placeholder="Search" data-bind="value: inputValue, valueUpdate:'keyup', event:{keyup: filtersearch}" autocomplete="on">
+            <!-- <input type="text" id="searchbar" name="searchbar" class="form-control" data-bind="textInput: FilterTxt" placeholder="Search"> -->
+            <!-- <ul data-bind="foreach: locationArray, visible: locationsArray.length > 0"> -->
             <br>
             <font color="#FFB6C1">
                 <ul data-bind="foreach: locationArray">
                     <li data-bind="text: title,  click: $parent.selectItem"></li>
                 </ul>
-
-
         </div>
     </div>
 
