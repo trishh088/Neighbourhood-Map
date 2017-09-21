@@ -20,12 +20,12 @@
         <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
 
         <div id="inputSection">
-            <input type="text" placeholder="Search" data-bind="value: inputValue, valueUpdate:'keyup', event:{keyup: filtersearch}" autocomplete="on">
+            <input type="text" placeholder="Search" data-bind="value: inputValue, valueUpdate:'keyup' " autocomplete="on">
             <!-- <input type="text" id="searchbar" name="searchbar" class="form-control" data-bind="textInput: FilterTxt" placeholder="Search"> -->
             <!-- <ul data-bind="foreach: locationArray, visible: locationsArray.length > 0"> -->
             <br>
             <font color="#FFB6C1">
-                <ul data-bind="foreach: locationArray">
+                <ul data-bind="foreach: filterLocations">
                     <li data-bind="text: title,  click: $parent.selectItem"></li>
                 </ul>
         </div>
@@ -38,11 +38,12 @@
     </div>
     <div id="map" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">></div>
 
-    <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
     <script src="js/app.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?&libraries=places,geometry&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap">
+    <script async defer onerror = "mapError()" src="https://maps.googleapis.com/maps/api/js?&libraries=places,geometry&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap">
     </script>
+
     <!-- &zoom=9&size=400x400 -->
 
 </body>

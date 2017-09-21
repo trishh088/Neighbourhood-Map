@@ -105,9 +105,8 @@ var styles = [{
         color: '#17263c'
     }]
 }];
-var infoWindow;
+
 var map;
-var places = [];
 var markers = [];
 var locations = [{
         title: 'Park Ave Penthouse',
@@ -186,6 +185,7 @@ function initMap() {
             url: ''
 
         });
+
         //To change the colour of the marker colouron interaction through listview or by manually clicking
         google.maps.event.addListener(marker, 'click', function(marker, i) {
             for (var i = 0; i < markers.length; i++) {
@@ -230,7 +230,8 @@ function initMap() {
                             list = '👉🏻' + '<a href="' + article.web_url + '"">' + article.headline.main + '</a><br/>';
                             fullList = fullList + list;
                         }
-                        infowindow.setContent('<div' + '""' + '</div>' + '<div>' + fullList + '</div>');
+                        infowindow.setContent('<div' + '""' + '</div>' +'<div><div id="pano"></div>' + '<div>' + fullList + '</div>');
+                        streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
 
                     })
                     .error(function() {
@@ -242,7 +243,7 @@ function initMap() {
                         var nearStreetViewLocation = data.location.latLng;
                         var heading = google.maps.geometry.spherical.computeHeading(
                             nearStreetViewLocation, marker.position);
-                        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>' + '<div>' + "" + '</div>');
+                        // infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>' + '<div>' + "" + '</div>');
                         var panoramaOptions = {
                             position: nearStreetViewLocation,
                             pov: {
@@ -303,32 +304,57 @@ var ViewModel = function() {
     self.locationArray = ko.observableArray(locations);
 
     //for searching the locations
-    this.showAll = function(variable) {
-        for (var i = 0; i < self.locationArray.length; i++) {
-            self.locationArray[i].show(variable);
-            self.locationArray[i].setVisible(variable);
+    self.showAll = function(variable) {
+        for (var i = 0; i < self.locationArray().length; i++) {
+            // self.locationArray[i].show(variable);
+            if(self.locationArray()[i].marker)
+            self.locationArray()[i].marker.setVisible(variable);
         }
     };
 
     this.inputValue = ko.observable('');
-    this.filtersearch = function() {
-        var SearchValue = this.inputValue();
-        if (SearchValue.length === 0) {
-            this.showAll(true);
-        } else {
-            for (var i = 0; i < self.locationArray.length; i++) {
-                if (self.locationArray[i].title.toLowerCase()
-                    .indexOf(SearchValue.toLowerCase()) > -1) {
-                    self.locationArray[i].show(true);
-                    self.locationArray[i].setVisible(true);
-                } else {
-                    self.locationArray[i].show(false);
-                    self.locationArray[i].setVisible(false);
-                }
-            }
+    this.filterLocations = ko.computed(function(){
+      var SearchValue = self.inputValue();
+      if (SearchValue.length === 0) {
+            self.showAll(true);
+            return self.locationArray();
+          } else {
+          var tempArray = [];
+            for (var i = 0; i < self.locationArray().length; i++) {
+                  if (self.locationArray()[i].title.toLowerCase()
+                      .indexOf(SearchValue.toLowerCase()) > -1) {
+                      // self.locationArray()[i].show(true);
+                      self.locationArray()[i].marker.setVisible(true);
+                      tempArray.push(self.locationArray()[i]);
+                  } else {
+                      // self.locationArray()[i].show(false);
+                      self.locationArray()[i].marker.setVisible(false);
 
-        }
-    };
+                  }
+              }
+              return tempArray;
+
+          }
+
+    })
+    // this.filtersearch = function() {
+    //     var SearchValue = this.inputValue();
+    //     if (SearchValue.length === 0) {
+    //         this.showAll(true);
+    //     } else {
+    //         for (var i = 0; i < self.locationArray().length; i++) {
+    //             if (self.locationArray()[i].title.toLowerCase()
+    //                 .indexOf(SearchValue.toLowerCase()) > -1) {
+    //                 // self.locationArray()[i].show(true);
+    //                 self.locationArray()[i].marker.setVisible(true);
+    //             } else {
+    //                 // self.locationArray()[i].show(false);
+    //                 self.locationArray()[i].marker.setVisible(false);
+    //             }
+    //         }
+    //
+    //     }
+    // };
 
 
     self.selectItem = function(listItem) {
