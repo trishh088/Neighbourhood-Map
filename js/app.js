@@ -218,29 +218,30 @@ function initMap() {
                 // In case the status is OK, which means the pano was found, compute the
                 // position of the streetview image, then calculate the heading, then get a
                 // panorama from that and set the options
+
+                var list;
+                var articles;
+                var fullList = '<br/><strong>Related NY Times Articles:</strong><br/>';
+                var nytimeurl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title +  '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
+                 $.getJSON(nytimeurl, function(data) {
+                        articles = data.response.docs;
+                        for (var i = 0; i < articles.length; i++) {
+                            var article = articles[i];
+                            list = '👉🏻' + '<a href="' + article.web_url + '"">' + article.headline.main + '</a><br/>';
+                            fullList = fullList + list;
+                        }
+                        infowindow.setContent('<div' + '""' + '</div>' + '<div>' + fullList + '</div>');
+
+                    })
+                    .error(function() {
+                        alert("Something went wrong! NYT articles culd not be loaded");
+                    });
+
                 function getStreetView(data, status) {
                     if (status == google.maps.StreetViewStatus.OK) {
                         var nearStreetViewLocation = data.location.latLng;
                         var heading = google.maps.geometry.spherical.computeHeading(
                             nearStreetViewLocation, marker.position);
-
-                        var list;
-                        var articles;
-                        var fullList = '<div>' + '</div><br/><strong>Related NY Times Articles:</strong><br/>';
-                        var nytimeurl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title + '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
-                        var Nytapi = $.getJSON(nytimeurl, function(data) {
-                                articles = data.response.docs;
-                                for (var i = 0; i < articles.length; i++) {
-                                    var article = articles[i];
-                                    list = '<a href="' + article.web_url + '"">' + article.headline.main + '</a><br/>';
-                                    fullList = fullList + list;
-                                }
-                                infowindow.setContent('<div' + '""' + '</div>' + '<div>' + fullList + '</div>');
-
-                            })
-                            .error(function() {
-                                alert("Something went wrong! NYT articles culd not be loaded");
-                            });
                         infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>' + '<div>' + "" + '</div>');
                         var panoramaOptions = {
                             position: nearStreetViewLocation,
@@ -275,7 +276,9 @@ function initMap() {
         });
         bounds.extend(markers[i].position);
 
+
     };
+
 }
 
 
@@ -299,11 +302,11 @@ var ViewModel = function() {
 
     self.locationArray = ko.observableArray(locations);
 
-//for searching the locations
+    //for searching the locations
     this.showAll = function(variable) {
-        for (var i = 0; i < places.length; i++) {
-            places[i].show(variable);
-            places[i].setVisible(variable);
+        for (var i = 0; i < self.locationArray.length; i++) {
+            self.locationArray[i].show(variable);
+            self.locationArray[i].setVisible(variable);
         }
     };
 
@@ -313,14 +316,14 @@ var ViewModel = function() {
         if (SearchValue.length === 0) {
             this.showAll(true);
         } else {
-            for (var i = 0; i < places.length; i++) {
-                if (places[i].title.toLowerCase()
+            for (var i = 0; i < self.locationArray.length; i++) {
+                if (self.locationArray[i].title.toLowerCase()
                     .indexOf(SearchValue.toLowerCase()) > -1) {
-                    places[i].show(true);
-                    places[i].setVisible(true);
+                    self.locationArray[i].show(true);
+                    self.locationArray[i].setVisible(true);
                 } else {
-                    places[i].show(false);
-                    places[i].setVisible(false);
+                    self.locationArray[i].show(false);
+                    self.locationArray[i].setVisible(false);
                 }
             }
 
@@ -335,7 +338,11 @@ var ViewModel = function() {
         google.maps.event.trigger(listItem.marker, 'click');
         map.setZoom(15);
     };
+
+
+
 }
+
 
 
 
