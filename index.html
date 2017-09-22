@@ -1,51 +1,37 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Neighbourhood Map</title>
-    <meta http-equiv="cleartype" content="on">
-    <meta name="MobileOptimized" content="320">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-</head>
-
-<body>
-
-    <div id="mySidenav" class="sidenav" data-bind="style:{width:navIsOpen()?'220px':'0'}">
-        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
-        <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
-
-        <div id="inputSection">
-            <input type="text" placeholder="Search" data-bind="value: inputValue, valueUpdate:'keyup' " autocomplete="on">
-            <!-- <input type="text" id="searchbar" name="searchbar" class="form-control" data-bind="textInput: FilterTxt" placeholder="Search"> -->
-            <!-- <ul data-bind="foreach: locationArray, visible: locationsArray.length > 0"> -->
+   <head>
+      <meta charset="utf-8">
+      <title>Neighbourhood Map</title>
+      <meta http-equiv="cleartype" content="on">
+      <meta name="MobileOptimized" content="320">
+      <meta name="HandheldFriendly" content="True">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+   </head>
+   <body>
+      <div id="mySidenav" class="sidenav" data-bind="style:{width:navIsOpen()?'220px':'0'}">
+         <a data-bind="click:closeNav" class="closebtn" style="cursor:pointer">&times;</a>
+         <div id="inputSection">
+            </br>
+            <input class="searchBar" type="text" placeholder="Search" data-bind="value: inputValue, valueUpdate:'keyup' " autocomplete="on">
+            </br>
             <br>
-            <font color="#FFB6C1">
-                <ul data-bind="foreach: filterLocations">
-                    <li data-bind="text: title,  click: $parent.selectItem"></li>
-                </ul>
-        </div>
-    </div>
-
-    <div id="main" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">
-
-        <h3 id="titletext"><button class="toggle-button" style="font-size:20px;cursor:pointer" data-bind="click:openNav">&#9776;BURRITO🌯</button>🧀🍔FIND ANYTHING AND EVERYTHING HERE🍱🍜</h3>
-
-    </div>
-    <div id="map" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">></div>
-
-    <script src="js/lib/knockout-3.2.0.js"></script>
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/app.js"></script>
-    <script async defer onerror = "mapError()" src="https://maps.googleapis.com/maps/api/js?&libraries=places,geometry&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap">
-    </script>
-
-    <!-- &zoom=9&size=400x400 -->
-
-</body>
-
+            <font color="#9932CC">
+            <span data-bind="foreach: filterLocations">
+               <li class="item-list" data-bind="text: title,click: $parent.selectItem"></li>
+            </span>
+         </div>
+      </div>
+      <div id="main" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">
+         <h3 id="titletext"><button class="toggle-button" style="font-size:20px;cursor:pointer" data-bind="click:openNav">&#9776;Push Me ✋</button>🗺🌎Neighbourhood Map🌎🗺</h3>
+      </div>
+      <div id="map" data-bind="style:{marginLeft:navIsOpen()?'220px':'0px'}">></div>
+      <script src="js/lib/knockout-3.2.0.js"></script>
+      <script src="js/lib/jquery.min.js"></script>
+      <script src="js/app.js"></script>
+      <script async defer onerror = "mapError()" src="https://maps.googleapis.com/maps/api/js?&libraries=places,geometry&key=AIzaSyATi0R5GA-RMR5cOy4AxVQS_apkaOgWW-4&v=3&callback=initMap"></script>
+   </body>
 </html>

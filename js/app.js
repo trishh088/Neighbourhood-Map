@@ -109,42 +109,36 @@ var styles = [{
 var map;
 var markers = [];
 var locations = [{
-        title: 'Park Ave Penthouse',
-        location: {
-            lat: 40.7713024,
-            lng: -73.9632393
-        }
-    },
-    {
-        title: 'Chelsea Loft',
-        location: {
-            lat: 40.7444883,
-            lng: -73.9949465
-        }
-    },
-    {
-        title: 'Union Square Open Floor Plan',
-        location: {
-            lat: 40.7347062,
-            lng: -73.9895759
-        }
-    },
-    {
-        title: 'East Village Hip Studio',
-        location: {
-            lat: 40.7281777,
-            lng: -73.984377
-        }
-    },
-    {
-        title: 'Chinatown New York City',
-        location: {
-            lat: 40.7180628,
-            lng: -73.9961237
-        }
+    title: 'Park Ave Penthouse',
+    location: {
+        lat: 40.7713024,
+        lng: -73.9632393
     }
-];
-
+}, {
+    title: 'Chelsea Loft',
+    location: {
+        lat: 40.7444883,
+        lng: -73.9949465
+    }
+}, {
+    title: 'Union Square Open Floor Plan',
+    location: {
+        lat: 40.7347062,
+        lng: -73.9895759
+    }
+}, {
+    title: 'East Village Hip Studio',
+    location: {
+        lat: 40.7281777,
+        lng: -73.984377
+    }
+}, {
+    title: 'Chinatown New York City',
+    location: {
+        lat: 40.7180628,
+        lng: -73.9961237
+    }
+}];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -182,7 +176,6 @@ function initMap() {
             animation: google.maps.Animation.BOUNCE,
             icon: 'https://www.google.com/mapfiles/marker.png',
 
-
         });
 
         //To change the colour of the marker colouron interaction through listview or by manually clicking
@@ -193,11 +186,7 @@ function initMap() {
             this.setIcon('https://www.google.com/mapfiles/marker_green.png');
         });
 
-
         viewModel.locationArray()[i].marker = marker;
-
-
-
 
         function populateInfoWindow(marker, infowindow, locationItem) {
 
@@ -205,34 +194,43 @@ function initMap() {
             if (infowindow.marker != marker) {
                 infowindow.setContent('');
 
-
-
                 infowindow.marker = marker;
                 // Make sure the marker property is cleared if the infowindow is closed.
                 infowindow.addListener('closeclick', function() {
                     infowindow.marker = null;
                     //so that the colour of the marker is red again once the infowindow is closed.
                     marker.setIcon('https://www.google.com/mapfiles/marker.png');
+                    // to make the map appear like it did when the page loaded initmap is induced (for keeping the same center as mapzoom changes the view and all markers dont seem visible after the infowindow is opened)
+                    initMap();
                 });
                 var streetViewService = new google.maps.StreetViewService();
                 var radius = 50;
-                // In case the status is OK, which means the pano was found, compute the
-                // position of the streetview image, then calculate the heading, then get a
-                // panorama from that and set the options
 
                 var list;
                 var articles;
                 var fullList = '<br/><strong>Related NY Times Articles:</strong><br/>';
-                var nytimeurl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title +  '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
-                 $.getJSON(nytimeurl, function(data) {
-                        articles = data.response.docs;
+                var nytimeurl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title + '&sort=newest&api-key=4c3e33c2b2534f8c958d1c1e6084f75e';
+                $.getJSON(nytimeurl, function(data) {
+                        //used slice(0, 3) to get only 2 articles in the infowindow as it was looking overcrowded before
+                        articles = data.response.docs.slice(0, 3);
                         for (var i = 0; i < articles.length; i++) {
                             var article = articles[i];
                             list = '👉🏻' + '<a href="' + article.web_url + '"">' + article.headline.main + '</a><br/>';
                             fullList = fullList + list;
                         }
-                        infowindow.setContent('<div' + '""' + '</div>' +'<div><div id="pano"></div>' + '<div>' + fullList + '</div>');
+                        // called here so that both streetview and nyt api are in the same infowindow instead of calling it before   var panoramaOptions
+                        infowindow.setContent('<div' + '""' + '</div>' + '<strong>' + marker.title + '</strong>' + '<div><div id="pano"></div>' + '<div>' + fullList + '</div>');
+                        // Use streetview service to get the closest streetview image within
+                        // 50 meters of the markers position
+                        //Also called here so that both infowindow and nyt api can be in the same infowindow instead of before infowindow.open(map, marker);
                         streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+                        // so that the marker keeps bouncing always
+                        marker.setAnimation(google.maps.Animation.BOUNCE);
+                        // map.setZoom(15);
+                        //pan down infowindow by 450px to keep whole infowindow on screen
+                        map.panBy(0, -450);
+                        //zooms to that location
+                        map.setZoom(12);
 
                     })
                     .error(function() {
@@ -244,7 +242,6 @@ function initMap() {
                         var nearStreetViewLocation = data.location.latLng;
                         var heading = google.maps.geometry.spherical.computeHeading(
                             nearStreetViewLocation, marker.position);
-                        // infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>' + '<div>' + "" + '</div>');
                         var panoramaOptions = {
                             position: nearStreetViewLocation,
                             pov: {
@@ -261,14 +258,11 @@ function initMap() {
                     }
 
                 }
-                // Use streetview service to get the closest streetview image within
-                // 50 meters of the markers position
-                // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+
                 // Open the infowindow on the correct marker.
                 infowindow.open(map, marker);
             }
         }
-
 
         // Push the marker to our array of markers.
         markers.push(marker);
@@ -278,21 +272,17 @@ function initMap() {
         });
         bounds.extend(markers[i].position);
 
-
     };
 
 }
-
 
 function mapError() {
     alert("Map could not be loaded at this moment. Please try again");
 }
 
-
-
-
 var ViewModel = function() {
     var self = this;
+
     // for the slide out menu
     self.navIsOpen = ko.observable(false);
     self.closeNav = function() {
@@ -302,77 +292,50 @@ var ViewModel = function() {
         self.navIsOpen(true);
     }
 
+    self.selectItem = function(listItem, marker) {
+        // to get the infowindow to pop up when the item in the listview is clicked.
+        google.maps.event.trigger(listItem.marker, 'click');
+
+    };
+
     self.locationArray = ko.observableArray(locations);
 
     //for searching the locations
     self.showAll = function(variable) {
         for (var i = 0; i < self.locationArray().length; i++) {
-            // self.locationArray[i].show(variable);
-            if(self.locationArray()[i].marker)
-            self.locationArray()[i].marker.setVisible(variable);
+            if (self.locationArray()[i].marker)
+                self.locationArray()[i].marker.setVisible(variable);
         }
     };
 
+    //for filtering the serach of the list view
     this.inputValue = ko.observable('');
-    this.filterLocations = ko.computed(function(){
-      var SearchValue = self.inputValue();
-      if (SearchValue.length === 0) {
+    this.filterLocations = ko.computed(function() {
+        // for the search box
+        var SearchValue = self.inputValue();
+        if (SearchValue.length === 0) {
+            // if nothing is typed in the box show all locations in list view
             self.showAll(true);
             return self.locationArray();
-          } else {
-          var tempArray = [];
+
+        } else {
+            // filter locations according to keywords typed
+            var tempArray = [];
             for (var i = 0; i < self.locationArray().length; i++) {
-                  if (self.locationArray()[i].title.toLowerCase()
-                      .indexOf(SearchValue.toLowerCase()) > -1) {
-                      // self.locationArray()[i].show(true);
-                      self.locationArray()[i].marker.setVisible(true);
-                      tempArray.push(self.locationArray()[i]);
-                  } else {
-                      // self.locationArray()[i].show(false);
-                      self.locationArray()[i].marker.setVisible(false);
+                if (self.locationArray()[i].title.toLowerCase()
+                    .indexOf(SearchValue.toLowerCase()) > -1) {
+                    //pans to the marker according to the query typed in search
+                    self.locationArray()[i].marker.setVisible(true);
+                    tempArray.push(self.locationArray()[i]);
+                } else {
 
-                  }
-              }
-              return tempArray;
-
+                    self.locationArray()[i].marker.setVisible(false);
+                }
+            }
+            return tempArray;
           }
-
-    })
-    // this.filtersearch = function() {
-    //     var SearchValue = this.inputValue();
-    //     if (SearchValue.length === 0) {
-    //         this.showAll(true);
-    //     } else {
-    //         for (var i = 0; i < self.locationArray().length; i++) {
-    //             if (self.locationArray()[i].title.toLowerCase()
-    //                 .indexOf(SearchValue.toLowerCase()) > -1) {
-    //                 // self.locationArray()[i].show(true);
-    //                 self.locationArray()[i].marker.setVisible(true);
-    //             } else {
-    //                 // self.locationArray()[i].show(false);
-    //                 self.locationArray()[i].marker.setVisible(false);
-    //             }
-    //         }
-    //
-    //     }
-    // };
-
-
-    self.selectItem = function(listItem) {
-        //pan down infowindow by 55px to keep whole infowindow on screen
-        map.panBy(0, -55);
-        console.log(listItem);
-        google.maps.event.trigger(listItem.marker, 'click');
-        map.setZoom(15);
-    };
-
-
-
-}
-
-
-
-
+        });
+      }
 
 var viewModel = new ViewModel();
 
