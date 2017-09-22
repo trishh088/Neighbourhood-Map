@@ -181,8 +181,7 @@ function initMap() {
             title: title,
             animation: google.maps.Animation.BOUNCE,
             icon: 'https://www.google.com/mapfiles/marker.png',
-            wikilink: '',
-            url: ''
+
 
         });
 
@@ -212,6 +211,8 @@ function initMap() {
                 // Make sure the marker property is cleared if the infowindow is closed.
                 infowindow.addListener('closeclick', function() {
                     infowindow.marker = null;
+                    //so that the colour of the marker is red again once the infowindow is closed.
+                    marker.setIcon('https://www.google.com/mapfiles/marker.png');
                 });
                 var streetViewService = new google.maps.StreetViewService();
                 var radius = 50;
@@ -262,7 +263,7 @@ function initMap() {
                 }
                 // Use streetview service to get the closest streetview image within
                 // 50 meters of the markers position
-                streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+                // streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
                 // Open the infowindow on the correct marker.
                 infowindow.open(map, marker);
             }
